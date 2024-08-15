@@ -1,0 +1,2 @@
+# PineScript
+PineScript Arşivi
