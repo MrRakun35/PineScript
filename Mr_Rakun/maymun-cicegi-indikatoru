@@ -1,0 +1,39 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Mr_Rakun
+
+// Aşağıdaki kodlar tamamen mizah ve eğitim amaçlıdır. 
+// Hiçbir finansal veriye dayalı bilgi içermez.
+// Yatırım aracı olarak kullanılmamalıdır.
+
+//@version=5
+indicator("Maymun Çiçeği İndikatörü 🐒", overlay=true)
+
+// Maymun çiçeği durumu: Yüksek volatiliteli günler için rastgele belirleyici
+var string[] virus_stages = array.new_string(4)
+array.set(virus_stages, 0, "Sağlıklı 🏥")
+array.set(virus_stages, 1, "Karışık Semptomlar 🤔")
+array.set(virus_stages, 2, "Maymun Modu Aktif 🐵")
+array.set(virus_stages, 3, "Sıkı Karantina 🧑‍⚕️")
+
+// Rastgele bir maymun çiçeği aşaması seç
+virus_index = math.floor(math.random(0, 4))
+virus_status = array.get(virus_stages, virus_index)
+
+// İndikatör rengini belirle
+color virus_color = virus_index == 0 ? color.green :
+                   virus_index == 1 ? color.orange :
+                   virus_index == 2 ? color.red :
+                                      color.purple
+
+// Grafik üzerinde durumu göster
+durum = label.new(bar_index, low, virus_status, color=color.white, textcolor=virus_color, size=size.large, style = label.style_label_up)
+label.delete(durum[1])
+// Maymun çiçeği moduna göre eğilim oku çiz
+plotshape(series=virus_index == 2, location=location.abovebar, color=color.white, style=shape.labeldown, text="🐒", size=size.normal)
+
+// Uyarı mesajları
+if virus_index == 2
+    alert("Maymun Modu Aktif! 🐒 Piyasalar çıldırmış olabilir!", alert.freq_once_per_bar_close)
+
+if virus_index == 3
+    alert("Sıkı Karantina! 🧑‍⚕️ Dikkatli olun!", alert.freq_once_per_bar_close)
