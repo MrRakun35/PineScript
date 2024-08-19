@@ -1,0 +1,26 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Mr_Rakun
+
+// RSI ile beraber kullanıldığında RSI'ın dönüş yerlerini bulmaya yardımcı olması için yazılmıştır.
+// Mum boylarının ivmesi azaldıkça fiyatın döneceği düşünülür.
+
+//@version=5
+indicator("Mum Momentum Histogramı")
+
+// Son kapanan mum fiyatı
+currentClose = close
+
+// Bir önceki mumun kapanış fiyatı
+previousClose = close[1]
+
+// Yüzdesel değişimi hesapla
+percentageChange = ((currentClose - previousClose) / previousClose) * 100
+
+// Histogram renkleri
+histogramColor = percentageChange >= 0 ? color.new(color.green, 0) : color.new(color.red, 0)
+
+// Histogram çiz
+plot(percentageChange, title="Yüzdesel Değişim", color=histogramColor, style=plot.style_histogram)
+
+hline(3, "Yükseliş Yüzdesi")
+hline(-3, "Düşüş Yüzdesi")
