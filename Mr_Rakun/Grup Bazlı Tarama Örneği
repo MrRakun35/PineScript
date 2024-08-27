@@ -1,0 +1,117 @@
+//@version=5
+indicator("Grup Bazlı Tarama Örneği", overlay=true)
+
+grup = input.string("Grup A", "Grup Seçimi", options = ["Grup A", "Grup B", "Grup C"])
+// Options değerleri oluşturulacak gruplar
+
+// Grupların inputları
+// Grup A
+sym_1 = input.symbol("BTCUSDT", "1.", group = "Grup A")
+sym_2 = input.symbol("ETHUSDT", "2.", group = "Grup A")
+sym_3 = input.symbol("BNBUSDT", "3.", group = "Grup A")
+sym_4 = input.symbol("XRPUSDT", "4.", group = "Grup A")
+// ......... 40 a kadar çoğaltılabilir
+
+// Grup B
+sym_5 = input.symbol("DOGEUSDT", "5.", group = "Grup B")
+sym_6 = input.symbol("SOLUSDT", "6.", group = "Grup B")
+sym_7 = input.symbol("ADAUSDT", "7.", group = "Grup B")
+sym_8 = input.symbol("MATICUSDT", "8.", group = "Grup B")
+// ......... 40 a kadar çoğaltılabilir
+
+// Grup C
+// bu grup 40 pariteli olacak yani toplamda 48 parite kullanılacak ama her sefirinde 40 adet taranacak grup seçimi sayesinde
+sym_9 = input.symbol("DOTUSDT", "9.", group = "Grup C")
+sym_10 = input.symbol("LTCUSDT", "10.", group = "Grup C")
+sym_11 = input.symbol("SHIBUSDT", "11.", group = "Grup C")
+sym_12 = input.symbol("TRXUSDT", "12.", group = "Grup C")
+sym_13 = input.symbol("", "13", group = "Grup C")
+sym_14 = input.symbol("", "14", group = "Grup C")
+sym_15 = input.symbol("", "15", group = "Grup C")
+sym_16 = input.symbol("", "16", group = "Grup C")
+sym_17 = input.symbol("", "17", group = "Grup C")
+sym_18 = input.symbol("", "18", group = "Grup C")
+sym_19 = input.symbol("", "19", group = "Grup C")
+sym_20 = input.symbol("", "20", group = "Grup C")
+sym_21 = input.symbol("", "21", group = "Grup C")
+sym_22 = input.symbol("", "22", group = "Grup C")
+sym_23 = input.symbol("", "23", group = "Grup C")
+sym_24 = input.symbol("", "24", group = "Grup C")
+sym_25 = input.symbol("", "25", group = "Grup C")
+sym_26 = input.symbol("", "26", group = "Grup C")
+sym_27 = input.symbol("", "27", group = "Grup C")
+sym_28 = input.symbol("", "28", group = "Grup C")
+sym_29 = input.symbol("", "29", group = "Grup C")
+sym_30 = input.symbol("", "30", group = "Grup C")
+sym_31 = input.symbol("", "31", group = "Grup C")
+sym_32 = input.symbol("", "32", group = "Grup C")
+sym_33 = input.symbol("", "33", group = "Grup C")
+sym_34 = input.symbol("", "34", group = "Grup C")
+sym_35 = input.symbol("", "35", group = "Grup C")
+sym_36 = input.symbol("", "36", group = "Grup C")
+sym_37 = input.symbol("", "37", group = "Grup C")
+sym_38 = input.symbol("", "38", group = "Grup C")
+sym_39 = input.symbol("", "39", group = "Grup C")
+sym_40 = input.symbol("", "40", group = "Grup C")
+sym_41 = input.symbol("", "41", group = "Grup C")
+sym_42 = input.symbol("", "42", group = "Grup C")
+sym_43 = input.symbol("", "43", group = "Grup C")
+sym_44 = input.symbol("", "44", group = "Grup C")
+sym_45 = input.symbol("", "45", group = "Grup C")
+sym_46 = input.symbol("", "46", group = "Grup C")
+sym_47 = input.symbol("", "47", group = "Grup C")
+sym_48 = input.symbol("", "48", group = "Grup C")
+sym_49 = input.symbol("", "49", group = "Grup C")
+// 40 inputluk set sonu
+
+
+// Tarama ile çağırılacak değer
+rsi = ta.rsi(close, 14)
+
+
+// Tarama Fonksiyonu
+Tarama(_pair1, _pair2, _pair3) => 
+
+    // Grup Seçimi
+    _pair = grup=="Grup A" ? _pair1 : grup=="Grup B" ? _pair2 : _pair3     
+
+    // Pairı Sorgula RSI değerini al
+    _rsi_value = request.security(_pair, timeframe.period, rsi, ignore_invalid_symbol=true)  
+
+    //== Alınan değeri geri döndür
+    _rsi_value
+
+// Tarama Listesi
+rsi1 = Tarama(sym_1, sym_5, sym_9)   
+rsi2 = Tarama(sym_2, sym_6, sym_10) 
+rsi3 = Tarama(sym_3, sym_7, sym_11)  
+rsi4 = Tarama(sym_4, sym_8, sym_12)  
+// 40 a kadar tekrarlayın
+
+
+// Table oluşturma
+var rsi_table = table.new(position.middle_right, 1, 40, border_color = color.white, border_width = 1, bgcolor = color.blue)
+
+// Grup A seçiliyse değerleri table da görüntüle
+if grup == "Grup A"
+    table.cell(rsi_table, 0, 1, text = not na(sym_1) ? str.tostring(sym_1) + ": " + str.tostring(rsi1, "#.##") : na, text_color = color.white)
+    table.cell(rsi_table, 0, 2, text = not na(sym_2) ? str.tostring(sym_2) + ": " + str.tostring(rsi2, "#.##") : na, text_color = color.white)
+    table.cell(rsi_table, 0, 3, text = not na(sym_3) ? str.tostring(sym_3) + ": " + str.tostring(rsi3, "#.##") : na, text_color = color.white)
+    table.cell(rsi_table, 0, 4, text = not na(sym_4) ? str.tostring(sym_4) + ": " + str.tostring(rsi4, "#.##") : na, text_color = color.white)
+// 40 a kadar tekrarlayın
+
+// Grup B seçiliyse değerleri table da görüntüle
+if grup == "Grup B"
+    table.cell(rsi_table, 0, 1, text = not na(sym_5) ? str.tostring(sym_5) + ": " + str.tostring(rsi1, "#.##") : na, text_color = color.white)
+    table.cell(rsi_table, 0, 2, text = not na(sym_6) ? str.tostring(sym_6) + ": " + str.tostring(rsi2, "#.##") : na, text_color = color.white)
+    table.cell(rsi_table, 0, 3, text = not na(sym_7) ? str.tostring(sym_7) + ": " + str.tostring(rsi3, "#.##") : na, text_color = color.white)
+    table.cell(rsi_table, 0, 4, text = not na(sym_8) ? str.tostring(sym_8) + ": " + str.tostring(rsi4, "#.##") : na, text_color = color.white)
+// 40 a kadar tekrarlayın
+
+// Grup C seçiliyse değerleri table da görüntüle
+if grup == "Grup C"
+    table.cell(rsi_table, 0, 1, text = not na(sym_9) ? str.tostring(sym_9) + ": " + str.tostring(rsi1, "#.##") : na, text_color = color.white)
+    table.cell(rsi_table, 0, 2, text = not na(sym_10) ? str.tostring(sym_10) + ": " + str.tostring(rsi2, "#.##") : na, text_color = color.white)
+    table.cell(rsi_table, 0, 3, text = not na(sym_11) ? str.tostring(sym_11) + ": " + str.tostring(rsi3, "#.##") : na, text_color = color.white)
+    table.cell(rsi_table, 0, 4, text = not na(sym_12) ? str.tostring(sym_12) + ": " + str.tostring(rsi4, "#.##") : na, text_color = color.white)
+// 40 kadar tekrarlayın
